@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register – To Do Musi</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background: #f4f7f9;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .auth-container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        .auth-container h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00aaff;
+            margin-bottom: 10px;
+        }
+
+        .auth-container h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .auth-container label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .auth-container input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .auth-container button {
+            background: #00a86b;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .auth-container button:hover {
+            background: #007f54;
+        }
+
+        .auth-container a {
+            color: #0077cc;
+            text-decoration: none;
+        }
+
+        .form-errors {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 8px;
+            color: #856404;
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .form-errors ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1>📝 To Do Musi</h1>
+        <h2>Register</h2>
+
+        {% if form.errors %}
+            <div class="form-errors">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="id_first_name">First name</label>
+            {{ form.first_name }}
+
+            <label for="id_last_name">Last name</label>
+            {{ form.last_name }}
+
+            <label for="id_username">Username</label>
+            {{ form.username }}
+
+            <label for="id_password1">Password</label>
+            {{ form.password1 }}
+
+            <label for="id_password2">Confirm password</label>
+            {{ form.password2 }}
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <p style="margin-top: 15px;">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</body>
+</html>
