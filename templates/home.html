@@ -143,9 +143,15 @@
         <div class="section-title">In Progress</div>
         <ul class="task-list">
             {% for task in tasks_active %}
-                <li>
-                    {{ task.title }}
+                <li id="task-{{ task.id }}">
+                    <span class="task-title">{{ task.title }}</span>
+                    <form method="post" action="{% url 'edit_task' task.id %}" class="edit-form" style="display: none;">
+                        {% csrf_token %}
+                        <input type="text" name="title" value="{{ task.title }}" required>
+                        <button type="submit">💾</button>
+                    </form>
                     <div class="task-actions">
+                        <a href="#" class="edit-btn" onclick="editTask({{ task.id }}, '{{ task.title }}')" title="Изменить">&#9998;</a>
                         <a href="{% url 'complete_task' task.id %}" class="check-btn" title="Mark as done">&#10003;</a>
                         <a href="{% url 'delete_task' task.id %}" class="delete-btn" title="Delete">&#10005;</a>
                     </div>
@@ -154,6 +160,7 @@
                 <li class="empty-note">No active tasks</li>
             {% endfor %}
         </ul>
+
 
         <!-- Completed Tasks -->
         <div class="section-title">Completed</div>
@@ -171,5 +178,16 @@
         </ul>
     </main>
 </div>
+<script>
+function editTask(id, title) {
+    const li = document.getElementById(`task-${id}`);
+    const titleSpan = li.querySelector('.task-title');
+    const form = li.querySelector('.edit-form');
+
+    titleSpan.style.display = 'none';
+    form.style.display = 'inline-block';
+}
+</script>
+
 </body>
 </html>
