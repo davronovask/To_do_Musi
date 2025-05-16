@@ -3,6 +3,6 @@ from .models import Task
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'completed')
-    search_fields = ('title',)
-    list_filter = ('completed', 'user')
+    list_display = ('title', 'user', 'completed')  # Показывать в таблице
+    search_fields = ('title',)                     # Поиск по названию задачи
+    list_filter = ('completed', 'user')            # Фильтрация по статусу и пользователю
