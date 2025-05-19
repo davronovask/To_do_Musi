@@ -2,13 +2,10 @@ from django import forms
 from .models import Task
 
 class TaskForm(forms.ModelForm):
-    """
-    Форма для добавления новой задачи.
-    Использует только поле 'title'.
-    """
+    """Форма для добавления новой задачи"""
     class Meta:
         model = Task
-        fields = ['title']  # Только поле заголовка задачи
+        fields = ['title']
         widgets = {
             'title': forms.TextInput(attrs={
                 'placeholder': 'Add a new task...',  # Подсказка внутри поля

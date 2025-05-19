@@ -3,11 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from typing import Any
 
-class RegisterForm(UserCreationForm):
-    """
-    Кастомная форма регистрации пользователя.
 
-    """
+class RegisterForm(UserCreationForm):
+    """Форма регистрации пользователя"""
 
     first_name = forms.CharField(
         max_length=30,
@@ -25,9 +23,7 @@ class RegisterForm(UserCreationForm):
         fields = ['first_name', 'last_name', 'username', 'password1', 'password2']
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """
-        Удаляет текст-подсказки (help_text) у всех полей формы.
-        """
+        """Удаляет help_text у всех полей"""
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.help_text = ''

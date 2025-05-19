@@ -4,18 +4,10 @@ from django.http import HttpRequest, HttpResponse
 from .forms import RegisterForm
 
 def register(request: HttpRequest) -> HttpResponse:
-    """
-    Обрабатывает регистрацию нового пользователя.
+    """ Обрабатывает регистрацию нового пользователя.
 
     При GET-запросе отображает форму регистрации.
-    При POST-запросе проверяет данные формы, создаёт пользователя и выполняет вход.
-
-    Args:
-        request (HttpRequest): объект запроса.
-
-    Returns:
-        HttpResponse: страницу с формой или перенаправление на главную страницу.
-    """
+    При POST-запросе проверяет данные формы, создаёт пользователя и выполняет вход """
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
