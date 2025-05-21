@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class UserAuthTests(TestCase):
     def setUp(self):
+        """Создаем пользователя и нужные данные для тестирования"""
         self.client = Client()
         self.register_url = reverse('register')
         self.login_url = reverse('login')
@@ -15,6 +16,7 @@ class UserAuthTests(TestCase):
         }
 
     def test_register_user_success(self):
+        """Проверяем, что пользователь зарегистрировался"""
         response = self.client.post(self.register_url, {
             'first_name': 'Test',
             'last_name': 'User',
@@ -26,6 +28,7 @@ class UserAuthTests(TestCase):
         self.assertTrue(User.objects.filter(username='testuser').exists())
 
     def test_register_user_password_mismatch(self):
+        """Проверяем, что пароль не совпадает"""
         response = self.client.post(self.register_url, {
             'first_name': 'Test',
             'last_name': 'User',
@@ -37,12 +40,14 @@ class UserAuthTests(TestCase):
         self.assertFalse(User.objects.filter(username='wrongpass').exists())
 
     def test_login_user_success(self):
+        """Проверяем, что пользователь успешно вошёл в систему"""
         User.objects.create_user(**self.credentials)
         response = self.client.post(self.login_url, self.credentials, follow=True)
         self.assertRedirects(response, self.home_url)
         self.assertTrue(response.context['user'].is_authenticated)
 
     def test_login_user_fail(self):
+        """Проверяем, что неверные данные входа не проходят"""
         response = self.client.post(self.login_url, {
             'username': 'wrong',
             'password': 'wrongpass'
@@ -50,6 +55,7 @@ class UserAuthTests(TestCase):
         self.assertContains(response, "Incorrect username or password.")
 
     def test_logout_user(self):
+        """Проверяем, что пользователь успешно вышел из системы"""
         User.objects.create_user(**self.credentials)
         self.client.login(**self.credentials)
         response = self.client.post(self.logout_url, follow=True)

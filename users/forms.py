@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class RegisterForm(UserCreationForm):
+    """Форма регистрации пользователя"""
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
 

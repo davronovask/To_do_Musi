@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.contrib.auth import login
+from django.http import HttpRequest, HttpResponse
 
-def register(request):
+
+def register(request: HttpRequest) -> HttpResponse:
+    """Регистрация пользователя"""
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():

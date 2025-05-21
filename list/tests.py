@@ -5,6 +5,7 @@ from list.models import Task
 
 class HomePageTests(TestCase):
     def setUp(self):
+        """Создаем пользователя и нужные данные для тестирования"""
         self.client = Client()
         self.user = User.objects.create_user(username='user', password='12345')
         self.client.login(username='user', password='12345')

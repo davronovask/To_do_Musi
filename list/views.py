@@ -4,12 +4,13 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
-
+from django.http import HttpRequest, HttpResponse
 from .models import Task
 from .forms import TaskForm
 
 @login_required
 def home(request):
+    """Главная страница"""
     tasks_active = Task.objects.filter(user=request.user, completed=False).order_by('-id')
     tasks_completed = Task.objects.filter(user=request.user, completed=True).order_by('-id')
     form = TaskForm()
@@ -31,21 +32,24 @@ def home(request):
     })
 
 @login_required
-def complete_task(request, task_id):
+def complete_task(request: HttpRequest, task_id: int) -> HttpResponse:
+    """Задача завершена"""
     task = get_object_or_404(Task, id=task_id, user=request.user)
     task.completed = True
     task.save()
     return redirect('home')
 
 @login_required
-def delete_task(request, task_id):
+def delete_task(request: HttpRequest, task_id: int) -> HttpResponse:
+    """Удаление задачи"""
     task = get_object_or_404(Task, id=task_id, user=request.user)
     task.delete()
     return redirect('home')
 
 @require_POST
 @login_required
-def update_task(request, task_id):
+def update_task(request: HttpRequest, task_id: int) -> HttpResponse:
+    """Изменение задачи"""
     task = get_object_or_404(Task, id=task_id, user=request.user)
     new_title = request.POST.get('title')
     if new_title:
@@ -55,7 +59,8 @@ def update_task(request, task_id):
 
 @require_POST
 @login_required
-def change_password_modal(request):
+def change_password_modal(request: HttpRequest) -> HttpResponse:
+    """Изменение пароля"""
     form = PasswordChangeForm(user=request.user, data=request.POST)
     if form.is_valid():
         user = form.save()
